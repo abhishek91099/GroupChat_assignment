@@ -127,12 +127,14 @@ app.post('/create_room', authenticateToken, async (req, res) => {
 app.post('/add_member', authenticateToken, async (req, res) => {
   try {
     const { room_id, members } = req.body;
-    console.log(req.user.id)
+    console.log(req.user.id,'this is user admin')
     
     // console.log(members,'add_users')
     
     for (const item of members) {
-      await addMemberToRoom(room_id, item.username, req.user.id);
+      if(item.id !=req.user.id){
+      console.log(room_id,'room_id')
+      await addMemberToRoom(room_id, item.username, req.user.id);}
     }
     res.json({ message: 'Member added successfully' });
   } catch (error) {
@@ -152,7 +154,7 @@ app.delete('/delete_room', authenticateToken, async (req, res) => {
 });
 app.get('/users',authenticateToken,async (req,res)=>{
   try{
-    console.log('here')
+    // console.log('here')
     const users=await getallusers()
     res.json({users})
   }catch(error){
@@ -232,7 +234,7 @@ io.on('connection', (socket) => {
   socket.emit('welcome', `Welcome to the chat, ${socket.user.username}!`);
 
   socket.on('join_room', (room) => {
-    console.log(room)
+    console.log(socket.user.username,room,'join_ned room')
     socket.join(room)
     
     socket.to(room).emit('user_joined', `${socket.user.username} joined the room`);
@@ -243,10 +245,20 @@ io.on('connection', (socket) => {
     socket.to(room).emit('user_left', `${socket.user.username} left the room`);
   });
 
-  socket.on('message', async ({ room, message }) => {
+  socket.on('message', async ({ room_id, message }) => {
     try {
-      const savedMessage = await saveMessage(room, socket.user.id, message);
-      io.to(room).emit('new_message', {
+      const savedMessage = await saveMessage(room_id, socket.user.id, message);
+      console.log(message,'recieved',room_id,'this room id from',socket.user.username)
+      const clientsInRoom = io.sockets.adapter.rooms.get(room_id);
+    
+    if (clientsInRoom) {
+      console.log(`Clients in room ${room_id}:`, Array.from(clientsInRoom));
+    } else {
+      console.log(`Room ${room_id} does not exist or has no clients.`);
+    }
+  
+
+      io.to(room_id).emit('new_message', {
         id: savedMessage.id,
         user: socket.user.username,
         message: savedMessage.message_text,

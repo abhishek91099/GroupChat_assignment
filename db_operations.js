@@ -209,14 +209,15 @@ export async function getRoomMembers(room_id, user_id) {
   const client = await pool.connect();
   try {
     const memberResult = await client.query(
-      'SELECT * FROM room_members WHERE room_id = $1 AND user_id = $2',
-      [room_id, user_id]
+      'SELECT * FROM room_members WHERE room_id = $1',
+      [room_id]
     );
+    // console.log(memberResult.rows)
     if (memberResult.rows.length === 0) {
       throw new Error('Not a member of this room');
     }
     const result = await client.query(
-      'SELECT users.username FROM room_members JOIN users ON room_members.user_id = users.id WHERE room_id = $1',
+      'SELECT users.username,users.id FROM room_members JOIN users ON room_members.user_id = users.id WHERE room_id = $1',
       [room_id]
     );
     return result.rows;

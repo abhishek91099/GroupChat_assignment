@@ -101,6 +101,7 @@
     "setprototypeof": "^1.2.0",
     "side-channel": "^1.0.6",
     "simple-update-notifier": "^2.0.0",
+    "socket-io": "^1.0.0",
     "socket.io": "^4.7.5",
     "split2": "^4.2.0",
     "statuses": "^2.0.1",
