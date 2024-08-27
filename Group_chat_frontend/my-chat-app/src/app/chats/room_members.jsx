@@ -1,7 +1,9 @@
+'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import Add_users from './add_user';
 
 
-const Roommember=({token,room_id,chat})=>{
+const Roommember=({token,room_id,chat,admin})=>{
     const[roomMember,setRoomMember]=useState([])
     const [showDropdown, setShowDropdown] = useState(false)
 
@@ -13,7 +15,7 @@ const Roommember=({token,room_id,chat})=>{
                     method: "GET",
                     headers: {
                       'Authorization': `Bearer ${token}`,
-                      'Content-Type': 'application/json',
+                      'Content-Type': 'application/json', 
                     },
                     credentials: 'include'
               
@@ -50,11 +52,12 @@ useEffect(()=>{
               <ul className="py-1 text-black">
                 {roomMember.members.map(member => (
                   <li key={member.id} className="px-4 py-2  hover:text-black ">
-                    {member.username}
+                    {member.username}{ member.id==admin?<span> admin</span>:<></>}
                   </li>
                 ))}
+                <Add_users token={token} room={room_id}/>
               </ul>     
-            </div>
+            </div>    
           )}
         </div>
       );

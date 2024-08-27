@@ -117,10 +117,18 @@
     "xtend": "^4.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test":  "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+ 
+   
+
+  
 }

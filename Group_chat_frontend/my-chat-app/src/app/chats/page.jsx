@@ -1,13 +1,15 @@
+'use client';
 import React, { useState, useEffect, useRef, use } from 'react';
 import { io } from 'socket.io-client';
 import Create_rooms from './create_rooms';
-import Add_users from './add_user';
+// import Add_users from './add_user';
 import Roommember from './room_members';
 // Initialize socket outside the component
 let socket = null;
 
 const Chat = ({ auth, toggleAuth, profile, setProfile }) => {
   const [text, setMessage] = useState('');
+  const [admin,setAdmin]=useState()
   const [messages, setMessages] = useState([]);
   const [side, setSide] = useState([]);
   const [chat, setChat] = useState('');
@@ -234,6 +236,7 @@ useEffect(()=>{
 
   const handle_chat = (item) => {
     setChat(item.room_name);
+    setAdmin(item.admin_id)
     setID(item.id)
 
     
@@ -286,8 +289,9 @@ useEffect(()=>{
           <div className="flex-1 flex flex-col h-full">
             <div className="flex items-center justify-between bg-gray-700 p-5 text-white">
             <div className="p-5">
+              <h1>{profile}</h1>
                 {chat ? (
-                  <div>
+                  <div> 
                     <h1>
                       {chat}
                       <span className={`inline-block h-3 w-3 rounded-full ml-2 ${online.has(chat) ? 'bg-green-500' : 'bg-gray-500'}`}></span>
@@ -297,8 +301,8 @@ useEffect(()=>{
                     ) : (
                       <h1>offline</h1>
                     )}
-                                          <Add_users token={token} room={room_id}/>
-                                          <Roommember token={token}room_id={room_id} chat={chat}/>
+                                          
+                                          <Roommember token={token} room_id={room_id} chat={chat} admin={admin}/>
                   </div>
 
                 ) : (

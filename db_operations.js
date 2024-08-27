@@ -218,6 +218,7 @@ export async function getRoomMembers(room_id, user_id) {
     }
     const result = await client.query(
       'SELECT users.username,users.id FROM room_members JOIN users ON room_members.user_id = users.id WHERE room_id = $1',
+      // 'SELECT users.username,users.id FROM room_members JOIN users ON room_members.user_id = users.id WHERE room_id = $1',
       [room_id]
     );
     return result.rows;

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const Login = ({ auth, toggleAuth, profile, setProfile }) => {
+const Login = ({ auth, setAuth,toggleAuth, profile, setProfile }) => {
   const router = useRouter();
   const [input, setInput] = useState({ username: '', password: '' });
 
@@ -25,10 +25,11 @@ const Login = ({ auth, toggleAuth, profile, setProfile }) => {
       console.log(data.user);
       console.log(data,'finding user')
       if (response.ok) {
-        toggleAuth();
+        // toggleAuth();
         localStorage.setItem('token', data.token);
+        setAuth((prevAuth) => !prevAuth)
         console.log(localStorage.getItem('token'), 'mil gya');
-        localStorage.setItem('user', data.user);
+        localStorage.setItem('user', JSON.stringify({username: data.user.username, id: data.user.id}));
         setProfile(input.username);
       } else {  
         window.alert('login failed');
@@ -38,6 +39,19 @@ const Login = ({ auth, toggleAuth, profile, setProfile }) => {
       console.error("Error during login:", error);
     }
   };
+  useEffect(() => {
+    const userString = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    if (userString && token) {
+      const user = JSON.parse(userString);
+      setAuth(true);
+      setProfile(user.username);
+    }
+  }, []);
+  useEffect(()=>{
+    console.log(profile)
+  },[profile])
 
 
   return (

@@ -11,23 +11,26 @@ const Home = () => {
     setAuth((prevAuth) => !prevAuth);
   };
 
-  useEffect(() => {
-    const username = localStorage.getItem('username');
-    console.log(username,'here in the app')
-    if (username != null) {
-      console.log(username.length);
-      setAuth(true);  
-      setProfile(username);
-    }
-    console.log(auth);
-    // console.log(username.user, 'username');
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem('user');
+  //   console.log(user,'here in the app')
+  //   if (username != null) {
+  //     console.log(username.length);
+  //     setAuth(true);  
+  //     setProfile(user.username);
+  //   }
+  //   console.log(auth);
+  //   // console.log(username.user, 'username');
+  // }, []);
+  // useEffect(()=>{
+  //   console.log(profile,'myprofile')
+  // },[profile])
 
   return (
     auth ? (
       <Chat auth={auth} toggleAuth={toggleAuth} profile={profile} setProfile={setProfile} />
     ) : (
-      <Login auth={auth} toggleAuth={toggleAuth} profile={profile} setProfile={setProfile} />
+      <Login auth={auth} setAuth={setAuth} toggleAuth={toggleAuth} profile={profile} setProfile={setProfile} />
     )
   );
 };
