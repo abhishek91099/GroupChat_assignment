@@ -4,7 +4,6 @@ import { io } from 'socket.io-client';
 import Create_rooms from './create_rooms';
 // import Add_users from './add_user';
 import Roommember from './room_members';
-// Initialize socket outside the component
 let socket = null;
 
 const Chat = ({ auth, toggleAuth, profile, setProfile }) => {
@@ -210,14 +209,7 @@ useEffect(()=>{
   };
 
   const logout = async () => {
-    const token = localStorage.getItem('token');
     try{
-    // const response = await fetch('http://192.168.29.145:5000/logout', {
-    //   method: "POST",
-    //   body: JSON.stringify({ sender: profile }),
-    //   headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
-    // });
-    
 
     if (socketRef.current) {
       socketRef.current.disconnect();

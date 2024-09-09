@@ -5,7 +5,7 @@ const Add_users = ({token,room}) => {
   const [showModal, setShowModal] = useState(false);
   const [roomName, setRoomName] = useState('');
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const [side,setSide] = useState([]); // Example list of online users
+  const [side,setSide] = useState([]); 
 
   
   const fetch_users = async () => {

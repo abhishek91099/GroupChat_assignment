@@ -58,7 +58,6 @@ const Create_rooms = ({token,fetchRooms}) => {
     }
     
     fetchRooms()
-    // Close the modal after creating the room
     setRoomName('')
     setShowModal(false);
   };

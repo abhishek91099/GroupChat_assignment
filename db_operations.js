@@ -66,9 +66,7 @@ export async function handlelogin(username, password) {
   }
 }
 
-export async function handlelogout(userId) {
-  // Implement any necessary logout logic (e.g., invalidating sessions)
-}
+
 
 export async function createRoom(room_name, admin_id) {
   const client = await pool.connect();
