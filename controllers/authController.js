@@ -2,8 +2,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-const JWT_SECRET ='eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcyNDQyNTcxMSwiaWF0IjoxNzI0NDI1NzExfQ.ztWMJNWduUDH8ZG_V_2tP6ugLJP9SERkY_6KpRD5kwQ'
-import sequelize from '../db_connect.js';
+import dotenv from 'dotenv';
+
+dotenv.config(); 
 // Handle user login
 export async function handleLogin(req, res) {
   const { username, password } = req.body;
@@ -21,7 +22,7 @@ export async function handleLogin(req, res) {
 
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: '1h' } // Token expires in 1 hour
     );
 
